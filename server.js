@@ -39,8 +39,18 @@ const fortune = (ctx, body = null, status = 200) => {
     })
 }
 
+const allowedOrigins = ['http://localhost:5173/', 'https://slowpokiss.github.io/shoes-app/'];
+
 const app = new Koa();
-app.use(cors());
+app.use(cors({
+    origin: (origin, callback) => {
+        if (allowedOrigins.includes(origin) || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+}));
 app.use(koaBody({
     json: true
 }));
