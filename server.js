@@ -43,15 +43,18 @@ const allowedOrigins = ['http://localhost:5173', 'https://slowpokiss.github.io']
 
 const app = new Koa();
 app.use(cors({
-    origin: (origin, callback) => {
-        console.log(origin);
-        //if (allowedOrigins.includes(origin) || !origin) {
-        callback(null, true);
-        //} else {
-            //callback(new Error('Not allowed by CORS'));
-        //}
-    },
+    origin: '*',
 }));
+app.use(async (ctx, next) => {
+    if (ctx.method === 'OPTIONS') {
+        ctx.set('Access-Control-Allow-Origin', '*');
+        ctx.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        ctx.set('Access-Control-Allow-Headers', 'Content-Type');
+        ctx.status = 204;
+    } else {
+        await next();
+    }
+});
 app.use(koaBody({
     json: true
 }));
