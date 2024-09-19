@@ -39,7 +39,7 @@ const fortune = (ctx, body = null, status = 200) => {
     })
 }
 
-const allowedOrigins = ['http://localhost:5173/', 'https://slowpokiss.github.io/shoes-app/'];
+const allowedOrigins = ['http://localhost:5173', 'https://slowpokiss.github.io'];
 
 const app = new Koa();
 app.use(cors({
